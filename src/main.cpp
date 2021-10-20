@@ -38,7 +38,8 @@ IP split(const std::string &str, char d) {
   return r;
 }
 
-IP_pool_int filter(const IP_pool_int &ip_pool, int first_byte, int second_byte = -1) {
+IP_pool_int filter(const IP_pool_int &ip_pool, int first_byte,
+                   int second_byte = -1) {
   IP_pool_int filtered_ip_pool;
 
   std::copy_if(ip_pool.cbegin(), ip_pool.cend(),
@@ -55,10 +56,9 @@ IP_pool_int filter_any(const IP_pool_int &ip_pool, int byte) {
 
   std::copy_if(ip_pool.cbegin(), ip_pool.cend(),
                std::back_inserter(filtered_ip_pool), [byte](const IP_int &ip) {
-                 return std::any_of(ip.cbegin(), ip.cend(),
-                                    [byte](int cur_byte) {
-                                      return cur_byte == byte;
-                                    });
+                 return std::any_of(
+                     ip.cbegin(), ip.cend(),
+                     [byte](int cur_byte) { return cur_byte == byte; });
                });
 
   return filtered_ip_pool;
@@ -91,13 +91,13 @@ int main(int argc, char const *argv[]) {
     }
 
     IP_pool_int ip_pool_int;
-    for (const auto& ip : ip_pool) {
-        IP_int ip_int;
-        for (int idx = 0; idx <= 3; ++idx) {
-            ip_int.push_back(stoi(ip[idx]));
-        }
+    for (const auto &ip : ip_pool) {
+      IP_int ip_int;
+      for (int idx = 0; idx <= 3; ++idx) {
+        ip_int.push_back(stoi(ip[idx]));
+      }
 
-        ip_pool_int.emplace_back(std::move(ip_int));
+      ip_pool_int.emplace_back(std::move(ip_int));
     }
 
     // bitwise stable sorting
